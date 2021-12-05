@@ -4,7 +4,100 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00985588-d90f-4593-b9e9-ca2057bed15d" name="Changes" comment="" />
+    <list default="true" id="00985588-d90f-4593-b9e9-ca2057bed15d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_fasterxml_jackson_core_jackson_annotations_2_11_4_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_fasterxml_jackson_core_jackson_core_2_11_4_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_fasterxml_jackson_core_jackson_databind_2_11_4_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_fasterxml_jackson_dataformat_jackson_dataformat_cbor_2_11_4_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_fasterxml_jackson_datatype_jackson_datatype_jdk8_2_11_4_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_fasterxml_jackson_datatype_jackson_datatype_jsr310_2_11_4_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_fasterxml_jackson_module_jackson_module_parameter_names_2_11_4_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_fasterxml_jackson_module_jackson_module_paranamer_2_11_4_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_fasterxml_jackson_module_jackson_module_scala_2_13_2_11_4_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_hierynomus_asn_one_0_5_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_thoughtworks_paranamer_paranamer_2_8_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_typesafe_akka_akka_actor_testkit_typed_2_13_2_6_17_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_typesafe_akka_akka_persistence_2_13_2_6_17_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_typesafe_akka_akka_persistence_query_2_13_2_6_17_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_typesafe_akka_akka_persistence_testkit_2_13_2_6_17_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_typesafe_akka_akka_persistence_typed_2_13_2_6_17_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_typesafe_akka_akka_pki_2_13_2_6_17_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_typesafe_akka_akka_protobuf_v3_2_13_2_6_17_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_typesafe_akka_akka_remote_2_13_2_6_17_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_typesafe_akka_akka_serialization_jackson_2_13_2_6_17_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_typesafe_akka_akka_stream_2_13_2_6_17_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_typesafe_akka_akka_stream_typed_2_13_2_6_17_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_typesafe_akka_akka_testkit_2_13_2_6_17_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__com_typesafe_ssl_config_core_2_13_0_4_2_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_agrona_agrona_1_9_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_lz4_lz4_java_1_8_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_reactivestreams_reactive_streams_1_0_3_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_scala_lang_modules_scala_parser_combinators_2_13_1_1_2_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_scala_lang_scala3_library_3_3_0_2_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sbt__org_scala_lang_scala_library_2_13_6_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/scala_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application.conf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/org/mhl/sandbox/Dispatcher.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/org/mhl/sandbox/Hello.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/org/mhl/sandbox/HelloDurableState.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/org/mhl/sandbox/HelloEventSourced.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/org/mhl/sandbox/HelloForgetful.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/org/mhl/sandbox/SandboxActor.scala" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/scala/org/mhl/sandbox/Serializable.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/sbt__org_scala_lang_scala_library_2_13_7_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/sandbox-build.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/sandbox-build.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/sandbox.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/sandbox.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.sbt" beforeDir="false" afterPath="$PROJECT_DIR$/build.sbt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$0901f7bd6c1b3c0b3843$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$0901f7bd6c1b3c0b3843.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$0901f7bd6c1b3c0b3843.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$3a590e49a2186dbebd00$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$3a590e49a2186dbebd00.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$3a590e49a2186dbebd00.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$84c36c118909e7ddfc9c$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$84c36c118909e7ddfc9c.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$84c36c118909e7ddfc9c.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$a28a1581e3c6b8e30f1a$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$a28a1581e3c6b8e30f1a.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$a28a1581e3c6b8e30f1a.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$a84faa4c07e99438049e$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$a84faa4c07e99438049e.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/target/config-classes/$a84faa4c07e99438049e.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/org/mhl/sandbox/Sandbox.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/org/mhl/sandbox/Sandbox.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$Dispatcher$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$Dispatcher$ChildProtocol.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$Dispatcher$NotFound$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$Dispatcher$NotFound.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$Dispatcher$Protocol.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$Dispatcher$Register$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$Dispatcher$Register.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$Dispatcher$Retrieve$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$Dispatcher$Retrieve.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$Dispatcher$Retrieved$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$Dispatcher$Retrieved.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$HelloWorld$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$HelloWorld$Ack$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$HelloWorld$Ack.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$HelloWorld$Die$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$HelloWorld$Die.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$HelloWorld$Greet$.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$HelloWorld$Greet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$HelloWorld$Protocol.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox$HelloWorld.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/scala-2.13/classes/org/mhl/sandbox/Sandbox.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/_global/_global/csrLogger/_global/streams/out" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/_global/_global/csrLogger/_global/streams/out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/compile/externalDependencyClasspath/_global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/externalDependencyClasspath/_global/streams/export" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/compile/managedClasspath/_global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/compile/managedClasspath/_global/streams/export" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/runtime/externalDependencyClasspath/_global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/runtime/externalDependencyClasspath/_global/streams/export" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/runtime/managedClasspath/_global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/runtime/managedClasspath/_global/streams/export" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/externalDependencyClasspath/_global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/test/externalDependencyClasspath/_global/streams/export" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/streams/test/managedClasspath/_global/streams/export" beforeDir="false" afterPath="$PROJECT_DIR$/target/streams/test/managedClasspath/_global/streams/export" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,6 +111,38 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="ExternalProjectsManager">
+    <system id="SBT">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="sandbox" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Scala Object" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/scala/org/mhl/sandbox/Hello.scala" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/build.sbt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/scala/org/mhl/sandbox/HelloForgetful.scala" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -25,6 +150,7 @@
     <option name="version" value="2" />
   </component>
   <component name="ProjectId" id="21jXSABeUE4o1XeCI0kQbUKqKyZ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -32,14 +158,29 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/scala/org/mhl/sandbox" />
     <property name="last_opened_file_path" value="D:/code-temp" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.32873562" />
+    <property name="scala_project_settings_configurable.last_selected_tab_index" value="7" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.mhl.sandbox" />
+      <recent name="org.ml.sandbox" />
+      <recent name="org.mhackl.sandbox.org.mhl.sandbox" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.mhl.sandbox" />
+      <recent name="" />
+      <recent name="org.mhackl.sandbox.org.mhl.sandbox" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Sandbox" type="Application" factoryName="Application" temporary="true">
@@ -47,7 +188,7 @@
       <module name="sandbox" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.mhackl.sandbox.*" />
+          <option name="PATTERN" value="org.mhackl.sandbox.org.mhl.sandbox.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -61,6 +202,9 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="ScalaProjectSettings">
+    <option name="scala3DisclaimerShown" value="true" />
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -69,11 +213,32 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1638455467357</updated>
-      <workItem from="1638455471524" duration="9155000" />
+      <workItem from="1638455471524" duration="17249000" />
+      <workItem from="1638616366174" duration="11527000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/ma-sandbox" />
+    </ignored-roots>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
