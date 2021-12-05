@@ -1,0 +1,80 @@
+package org.mhl.sandbox
+
+import akka.Done
+import akka.actor.typed.internal.ActorContextImpl
+import akka.actor.typed.scaladsl.AskPattern.Askable
+import akka.actor.typed.scaladsl.Behaviors
+import akka.actor.typed.{ActorRef, ActorSystem, Behavior, Scheduler}
+import akka.persistence.typed.PersistenceId
+import akka.persistence.typed.scaladsl.{Effect, EventSourcedBehavior}
+import akka.util.Timeout
+import org.mhl.sandbox.{Dispatcher, SandboxActor}
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.concurrent.duration.DurationInt
+import scala.language.postfixOps
+
+object HelloEventSourced extends SandboxActor("HelloEventSourced"):
+
+  trait Event
+  case class Greeted(whom: String) extends Event
+
+  trait Command
+  case class Greet(whom: String, replyTo: Option[ActorRef[HelloEventSourced.Command]]) extends Command
+  case class Die() extends Command
+  case class Ack() extends Command
+
+  final class State(val greetCount: Int, val greeted: Set[String])
+
+  val commandHandler: (State, Command) => Effect[Event, State] = { (state, command) =>
+    say("dub")
+    command match
+      case Greet(whom, replyTo) =>
+        say(s"Hello $whom")
+        say(s"Until now, I have greeted ${state.greetCount} times. ${state.greeted.mkString(", ")} have been greeted.")
+        replyTo.foreach(_ ! Ack())
+        Effect.persist(Greeted(whom))
+      case Die() =>
+        say("boom!")
+        throw new Exception()
+      case msg =>
+        say(msg.toString)
+        Effect.none
+  }
+
+  val eventHandler: (State, Event) => State = { (state, event) => {
+    event match
+      case Greeted(whom) =>
+        State(state.greetCount + 1, state.greeted + whom)
+      case event =>
+        say(s"Unknown event ${event.toString}")
+        state
+  }}
+
+  def eventSourcedBehavior: Behavior[Command] = Behaviors.setup { context =>
+    EventSourcedBehavior[Command, Event, State](
+      persistenceId = PersistenceId.ofUniqueId(this.name),
+      emptyState = State(0, Set.empty),
+      commandHandler = commandHandler,
+      eventHandler = eventHandler
+    )
+  }
+
+  def deploy(actorSystem: ActorSystem[Dispatcher.Protocol])(implicit scheduler: Scheduler): Future[HelloEventSourced] =
+    actorSystem.ask[Dispatcher.Protocol] { replyTo =>
+      Dispatcher.Register("helloEventSourced", HelloEventSourced.eventSourcedBehavior, replyTo) }(Timeout.durationToTimeout(30 seconds), scheduler)
+      .map {
+        case Dispatcher.Retrieved(id, ref) => HelloEventSourced(ref.asInstanceOf[ActorRef[HelloEventSourced.Command]])
+      }
+
+class HelloEventSourced(actor: ActorRef[HelloEventSourced.Command])(implicit scheduler: Scheduler):
+
+  def greet(whom: String): Future[Done] =
+    actor.ask[HelloEventSourced.Command] { replyTo => HelloEventSourced.Greet(whom, Some(replyTo)) }(Timeout.durationToTimeout(30 seconds), scheduler)
+      .map {
+        case HelloEventSourced.Ack() => Done.done()
+      }
+
+  def die(): Unit =
+    actor ! HelloEventSourced.Die()
