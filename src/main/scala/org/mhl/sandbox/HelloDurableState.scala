@@ -2,7 +2,7 @@ package org.mhl.sandbox
 
 import akka.Done
 import akka.actor.typed.scaladsl.AskPattern.Askable
-import akka.actor.typed.{ActorRef, ActorSystem, Scheduler}
+import akka.actor.typed.{ActorRef, Behavior, Scheduler}
 import akka.persistence.typed.PersistenceId
 import akka.persistence.typed.state.scaladsl.{DurableStateBehavior, Effect}
 import akka.util.Timeout
@@ -13,18 +13,13 @@ import scala.concurrent.Future
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
 
-object HelloDurableState extends SandboxActor("HelloDurableState") {
+object HelloDurableState extends SandboxActor[HelloDurableState] {
 
-  def deploy(actorSystem: ActorSystem[Dispatcher.Protocol])(implicit scheduler: Scheduler): Future[HelloDurableState] = {
-    actorSystem.ask[Dispatcher.Protocol] { replyTo =>
-      Dispatcher.Register("helloStateful", HelloDurableState.behavior(), replyTo)
-    }(Timeout.durationToTimeout(30 seconds), scheduler)
-      .map {
-        case Dispatcher.Retrieved(id, ref) => new HelloDurableState(ref.asInstanceOf[ActorRef[sandbox.HelloDurableState.Protocol]])
-      }
-  }
+  val name = "HelloDurableState"
 
-  def behavior(): DurableStateBehavior[Protocol, State] = {
+  override def apply(ref: ActorRef[_])(implicit scheduler: Scheduler): HelloDurableState = new HelloDurableState(ref.asInstanceOf[ActorRef[HelloDurableState.Protocol]])
+
+  def behavior(): Behavior[SandboxActor.Protocol] = {
     DurableStateBehavior[Protocol, State](
       persistenceId = PersistenceId.ofUniqueId(this.name),
       emptyState = State(0, Set.empty),
@@ -47,7 +42,7 @@ object HelloDurableState extends SandboxActor("HelloDurableState") {
           }
         }
       }
-    )
+    ).asInstanceOf[Behavior[SandboxActor.Protocol]]
   }
 
   trait Protocol extends Serializable

@@ -1,9 +1,9 @@
 package org.mhl.sandbox
 
 import akka.Done
+import akka.actor.typed._
 import akka.actor.typed.scaladsl.AskPattern.Askable
 import akka.actor.typed.scaladsl.Behaviors
-import akka.actor.typed.{ActorRef, ActorSystem, Behavior, Scheduler}
 import akka.util.Timeout
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -11,18 +11,13 @@ import scala.concurrent.Future
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
 
-object Hello extends SandboxActor("Hello") {
+object Hello extends SandboxActor[Hello] {
 
-  def deploy(actorSystem: ActorSystem[Dispatcher.Protocol])(implicit scheduler: Scheduler): Future[Hello] = {
-    actorSystem.ask[Dispatcher.Protocol] { replyTo =>
-      Dispatcher.Register(Hello.name, Hello.behavior, replyTo)
-    }(Timeout.durationToTimeout(30 seconds), scheduler)
-      .map {
-        case Dispatcher.Retrieved(id, ref) => new Hello(ref.asInstanceOf[ActorRef[Hello.Protocol]])
-      }
-  }
+  val name = "Hello"
 
-  def behavior: Behavior[Protocol] =
+  def apply(actor: ActorRef[_])(implicit scheduler: Scheduler) = new Hello(actor.asInstanceOf[ActorRef[Hello.Protocol]])
+
+  def behavior: Behavior[SandboxActor.Protocol] =
     Behaviors.receive { (context, message) =>
       message match {
         case Greet(whom, replyTo) =>
@@ -37,7 +32,7 @@ object Hello extends SandboxActor("Hello") {
       }
     }
 
-  trait Protocol
+  trait Protocol extends SandboxActor.Protocol
 
   case class Greet(whom: String, replyTo: Option[ActorRef[Protocol]]) extends Protocol
 

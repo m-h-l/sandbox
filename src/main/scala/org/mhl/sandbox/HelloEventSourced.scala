@@ -1,9 +1,9 @@
 package org.mhl.sandbox
 
 import akka.Done
+import akka.actor.typed._
 import akka.actor.typed.scaladsl.AskPattern.Askable
 import akka.actor.typed.scaladsl.Behaviors
-import akka.actor.typed.{ActorRef, ActorSystem, Behavior, Scheduler}
 import akka.persistence.typed.PersistenceId
 import akka.persistence.typed.scaladsl.{Effect, EventSourcedBehavior}
 import akka.util.Timeout
@@ -13,7 +13,9 @@ import scala.concurrent.Future
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
 
-object HelloEventSourced extends SandboxActor("HelloEventSourced") {
+object HelloEventSourced extends SandboxActor[HelloEventSourced] {
+
+  val name = "HelloEventSourced"
 
   val commandHandler: (State, Command) => Effect[Event, State] = { (state, command) =>
     command match {
@@ -47,29 +49,25 @@ object HelloEventSourced extends SandboxActor("HelloEventSourced") {
   }
   }
 
-  def deploy(actorSystem: ActorSystem[Dispatcher.Protocol])(implicit scheduler: Scheduler): Future[HelloEventSourced] = {
-    actorSystem.ask[Dispatcher.Protocol] { replyTo =>
-      Dispatcher.Register("helloEventSourced", HelloEventSourced.eventSourcedBehavior, replyTo)
-    }(Timeout.durationToTimeout(30 seconds), scheduler)
-      .map {
-        case Dispatcher.Retrieved(id, ref) => new HelloEventSourced(ref.asInstanceOf[ActorRef[HelloEventSourced.Command]])
-      }
-  }
+  override def apply(ref: ActorRef[_])(implicit scheduler: Scheduler): HelloEventSourced = new HelloEventSourced(ref.asInstanceOf[ActorRef[HelloEventSourced.Command]])
 
-  def eventSourcedBehavior: Behavior[Command] = {
-    Behaviors.setup { context =>
-      EventSourcedBehavior[Command, Event, State](
-        persistenceId = PersistenceId.ofUniqueId(this.name),
-        emptyState = HelloEventSourced.State(0, Set.empty),
-        commandHandler = commandHandler,
-        eventHandler = eventHandler
-      )
-    }
+  def behavior: Behavior[SandboxActor.Protocol] = {
+    Behaviors.supervise {
+      Behaviors.setup[HelloEventSourced.Command] { context =>
+        EventSourcedBehavior[Command, Event, State](
+          persistenceId = PersistenceId.ofUniqueId(this.name),
+          emptyState = HelloEventSourced.State(0, Set.empty),
+          commandHandler = commandHandler,
+          eventHandler = eventHandler
+        )
+      }
+    }.onFailure(SupervisorStrategy.restart)
+      .asInstanceOf[Behavior[SandboxActor.Protocol]]
   }
 
   trait Event
 
-  trait Command
+  trait Command extends SandboxActor.Protocol
 
   case class Greeted(whom: String) extends Event
 
@@ -80,6 +78,7 @@ object HelloEventSourced extends SandboxActor("HelloEventSourced") {
   case class Ack() extends Command
 
   final case class State(val greetCount: Int, val greeted: Set[String])
+
 
 }
 
