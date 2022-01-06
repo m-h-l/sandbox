@@ -10,7 +10,8 @@ libraryDependencies ++= Seq(
   ("com.typesafe.akka" %% "akka-serialization-jackson" % "2.6.17"),
   ("ch.qos.logback" % "logback-classic" % "1.2.7"),
   ("org.fusesource.leveldbjni" % "leveldbjni-all" % "1.8"),
-  ("org.iq80.leveldb" % "leveldb" % "0.12")
+  ("org.iq80.leveldb" % "leveldb" % "0.12"),
+  ("com.github.nscala-time" %% "nscala-time" % "2.30.0")
 )
 
 lazy val root = (project in file("."))
