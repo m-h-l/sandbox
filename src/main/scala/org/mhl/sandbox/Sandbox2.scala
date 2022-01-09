@@ -11,37 +11,16 @@ import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
 import scala.util.Random
 
-
-object Rand {
-  def choose[A](seq: Seq[A])(implicit random: Random): A =
-    seq(random.nextInt(seq.length))
-}
-
-object Sandbox {
-
-  val names = Seq("Foo", "Bar", "Baz", "Hurr", "Durr", "Herp", "Derp", "Boom")
-  val numbers: Seq[Int] = Seq.range(1, 10)
-
+object Sandbox2 {
   def main(args: Array[String]): Unit = {
-
+    val numbers: Seq[Int] = Seq.range(11, 20)
     implicit val random: Random = Random.javaRandomToRandom(Random.self)
     val config = ConfigFactory.load()
     val actorSystem: ActorSystem[Dispatcher.Protocol] = ActorSystem[Dispatcher.Protocol](
-      Behaviors.withStash[Dispatcher.Protocol](20) { stash =>
-        Behaviors.setup {
-          context =>
-            Hello.deploy(context)
-            HelloForgetful.deploy(context)
-            HelloEventSourced.deploy(context)
-            //Computation.deploy(context)
-            SandboxRouter(10, Computation).deploy(context)
-            stash.unstashAll(Dispatcher.behavior(Map.empty))
-        }
-      },
+      Behaviors.empty,
       name = "root",
-      config = config.getConfig("first").withFallback(config.withoutPath("first").withoutPath("second"))
+      config = config.getConfig("second").withFallback(config.withoutPath("first").withoutPath("second"))
     )
-
 
     actorSystem.scheduler.scheduleAtFixedRate(0 seconds, 2 seconds) { () =>
       Computation.residingOn(actorSystem)
@@ -60,18 +39,6 @@ object Sandbox {
         })
     }
 
-    actorSystem.scheduler.scheduleAtFixedRate(0 seconds, 8 seconds) { () =>
-      val hello = HelloForgetful.residingOn(actorSystem)
-      hello.failed.foreach(f => f.printStackTrace())
-      val name = Rand.choose(names)
-      println(s"$name")
-      if (name == "Boom") {
-        hello.foreach(_.die())
-      } else {
-        hello.foreach(_.greet(name))
-      }
-    }
+
   }
 }
-
-

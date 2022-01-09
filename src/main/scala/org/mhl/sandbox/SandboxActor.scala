@@ -24,36 +24,28 @@ trait SandboxActor[T] {
 
   def behavior: Behavior[SandboxActor.Protocol]
 
-  def deploy(context: ActorContext[Dispatcher.Protocol])(implicit scheduler: Scheduler): Future[T] = {
+  def deploy(context: ActorContext[Dispatcher.Protocol]): Future[T] = {
 
     val ref = context.spawn[SandboxActor.Protocol](behavior, this.name)
     say(s"Spawned ${this.name}")
 
-    //    context.self.ask[Dispatcher.Protocol] { replyTo =>
-    //      Dispatcher.Register(this.name, ref, replyTo)
-    //    }(Timeout.durationToTimeout(30 seconds), scheduler)
-    //      .map {
-    //        case Dispatcher.Retrieved(id, ref) => apply(ref)(scheduler)
-    //      }
-
     context.system.receptionist.ask[Receptionist.Registered] { replyTo =>
       Receptionist.register(ServiceKey[SandboxActor.Protocol](name), ref, replyTo)
-    }(Timeout.durationToTimeout(30 seconds), scheduler).map { response =>
-      apply(ref)
+    }(Timeout.durationToTimeout(30 seconds), context.system.scheduler).map { response =>
+      apply(ref)(context.system.scheduler)
     }
   }
 
   def say(text: String): Unit = println(s"$name says: $text")
 
   def residingOn(actorSystem: ActorSystem[Dispatcher.Protocol]): Future[T] =
-  //    actorSystem.ask[Dispatcher.Protocol] { replyTo => Dispatcher.Retrieve(this.name, replyTo) }(Timeout.durationToTimeout(30 seconds), actorSystem.scheduler)
-  //      .map {
-  //        case Dispatcher.Retrieved(id, ref) => apply(ref.asInstanceOf[ActorRef[HelloForgetful.Protocol]])(actorSystem.scheduler)
-  //        case Dispatcher.NotFound(id) => throw new NoSuchElementException(id)
-  //      }
     actorSystem.receptionist.ask[Receptionist.Listing] { replyTo => Receptionist.find(ServiceKey[SandboxActor.Protocol](this.name), replyTo)
     }(Timeout.durationToTimeout(30 seconds), actorSystem.scheduler).map { response =>
-      val ref = response.serviceInstances(ServiceKey[SandboxActor.Protocol](name)).head
-      apply(ref)(actorSystem.scheduler)
+      val instances = response.serviceInstances(ServiceKey[SandboxActor.Protocol](name))
+      instances.headOption match {
+        case Some(ref) => apply(ref)(actorSystem.scheduler)
+        case None => throw new NoSuchElementException()
+      }
+
     }
 }
