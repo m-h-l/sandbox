@@ -17,10 +17,10 @@ object HelloDurableState extends SandboxActor[HelloDurableState] {
 
   val name = "HelloDurableState"
 
-  override def apply(ref: ActorRef[_])(implicit scheduler: Scheduler): HelloDurableState = new HelloDurableState(ref.asInstanceOf[ActorRef[HelloDurableState.Protocol]])
+  override def apply(ref: ActorRef[SandboxActor.Protocol])(implicit scheduler: Scheduler): HelloDurableState = new HelloDurableState(ref)
 
-  def behavior(): Behavior[SandboxActor.Protocol] = {
-    DurableStateBehavior[Protocol, State](
+  def initialBehavior(): Behavior[SandboxActor.Protocol] = {
+    DurableStateBehavior[Command, State](
       persistenceId = PersistenceId.ofUniqueId(this.name),
       emptyState = State(0, Set.empty),
       commandHandler = { (state, command) =>
@@ -45,20 +45,26 @@ object HelloDurableState extends SandboxActor[HelloDurableState] {
     ).asInstanceOf[Behavior[SandboxActor.Protocol]]
   }
 
-  trait Protocol extends Serializable
+  trait Command
 
   final case class State(greetCount: Int, greeted: Set[String]) extends Serializable
 
-  case class Greet(whom: String, replyTo: Option[ActorRef[Protocol]]) extends Protocol
+  case class Greet(whom: String, override val replyTo: Option[ActorRef[SandboxActor.Protocol]]) extends SandboxActor.Request(replyTo) with Command {
+    override def setReplyTo(actorRef: ActorRef[SandboxActor.Protocol]): Greet = {
+      Greet(whom, Some(actorRef))
+    }
+  }
 
-  case class Die() extends Protocol
+  case class Die() extends SandboxActor.Request(None) with Command {
+    override def setReplyTo(actorRef: ActorRef[SandboxActor.Protocol]): Die = Die()
+  }
 
-  case class Ack() extends Protocol
+  case class Ack() extends SandboxActor.Response
 }
 
-class HelloDurableState(actor: ActorRef[sandbox.HelloDurableState.Protocol])(implicit scheduler: Scheduler) {
+class HelloDurableState(actor: ActorRef[SandboxActor.Protocol])(implicit scheduler: Scheduler) {
   def greet(whom: String): Future[Done] = {
-    actor.ask[HelloDurableState.Protocol] {
+    actor.ask[SandboxActor.Protocol] {
       replyTo => HelloDurableState.Greet(whom, Some(replyTo))
     }(Timeout.durationToTimeout(30 seconds), scheduler)
       .map {

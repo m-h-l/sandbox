@@ -16,14 +16,14 @@ object Sandbox2 {
     val numbers: Seq[Int] = Seq.range(11, 20)
     implicit val random: Random = Random.javaRandomToRandom(Random.self)
     val config = ConfigFactory.load()
-    val actorSystem: ActorSystem[Dispatcher.Protocol] = ActorSystem[Dispatcher.Protocol](
+    val actorSystem: ActorSystem[SandboxActor.Protocol] = ActorSystem[SandboxActor.Protocol](
       Behaviors.empty,
       name = "root",
       config = config.getConfig("second").withFallback(config.withoutPath("first").withoutPath("second"))
     )
 
     actorSystem.scheduler.scheduleAtFixedRate(0 seconds, 2 seconds) { () =>
-      Computation.residingOn(actorSystem)
+      Computation.getSingle(actorSystem)
         .map { c =>
           val startTime = DateTime.now()
           val n = Rand.choose(numbers)

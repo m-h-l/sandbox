@@ -12,14 +12,8 @@ import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
 import scala.reflect.ClassTag
 
-object SandboxRouter {
 
-  def apply[T : ClassTag](poolSize: Int, routedActor: SandboxActor[T]): SandboxRouter[T] =
-    new SandboxRouter[T](poolSize, routedActor)
-
-}
-
-class SandboxRouter[T : ClassTag](poolSize: Int, routedActor: SandboxActor[T]) extends SandboxActor[T] {
+class SandboxRouter2[T : ClassTag](poolSize: Int, routedActor: SandboxActor[T]) extends SandboxActor[T] {
 
   override val name: String = s"PoolRouter-${routedActor.name}"
 

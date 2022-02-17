@@ -26,8 +26,7 @@ object Sandbox {
 
     implicit val random: Random = Random.javaRandomToRandom(Random.self)
     val config = ConfigFactory.load()
-    val actorSystem: ActorSystem[Dispatcher.Protocol] = ActorSystem[Dispatcher.Protocol](
-      Behaviors.withStash[Dispatcher.Protocol](20) { stash =>
+    val actorSystem: ActorSystem[SandboxActor.Protocol] = ActorSystem[SandboxActor.Protocol](
         Behaviors.setup {
           context =>
             Hello.deploy(context)
@@ -35,16 +34,15 @@ object Sandbox {
             HelloEventSourced.deploy(context)
             //Computation.deploy(context)
             SandboxRouter(10, Computation).deploy(context)
-            stash.unstashAll(Dispatcher.behavior(Map.empty))
-        }
-      },
+            Behaviors.empty
+        },
       name = "root",
       config = config.getConfig("first").withFallback(config.withoutPath("first").withoutPath("second"))
     )
 
 
     actorSystem.scheduler.scheduleAtFixedRate(0 seconds, 2 seconds) { () =>
-      Computation.residingOn(actorSystem)
+      Computation.getSingle(actorSystem)
         .map { c =>
           val startTime = DateTime.now()
           val n = Rand.choose(numbers)
@@ -55,13 +53,13 @@ object Sandbox {
           result.foreach { result =>
             val duration = (startTime to DateTime.now()).toPeriod(PeriodType.millis()).getMillis
             println(s"Computation took $duration ms")
-            println(s"Computation result $n! = result")
+            println(s"Computation result $n! = $result")
           }
         })
     }
 
     actorSystem.scheduler.scheduleAtFixedRate(0 seconds, 8 seconds) { () =>
-      val hello = HelloForgetful.residingOn(actorSystem)
+      val hello = HelloForgetful.getSingle(actorSystem)
       hello.failed.foreach(f => f.printStackTrace())
       val name = Rand.choose(names)
       println(s"$name")

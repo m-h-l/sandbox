@@ -49,9 +49,9 @@ object HelloEventSourced extends SandboxActor[HelloEventSourced] {
   }
   }
 
-  override def apply(ref: ActorRef[_])(implicit scheduler: Scheduler): HelloEventSourced = new HelloEventSourced(ref.asInstanceOf[ActorRef[HelloEventSourced.Command]])
+  override def apply(ref: ActorRef[SandboxActor.Protocol])(implicit scheduler: Scheduler): HelloEventSourced = new HelloEventSourced(ref.asInstanceOf[ActorRef[HelloEventSourced.Command]])
 
-  def behavior: Behavior[SandboxActor.Protocol] = {
+  def initialBehavior: Behavior[SandboxActor.Protocol] = {
     Behaviors.supervise {
       Behaviors.setup[HelloEventSourced.Command] { context =>
         EventSourcedBehavior[Command, Event, State](
@@ -67,15 +67,22 @@ object HelloEventSourced extends SandboxActor[HelloEventSourced] {
 
   trait Event
 
-  trait Command extends SandboxActor.Protocol
+  abstract class Command(replyTo: Option[ActorRef[SandboxActor.Protocol]]) extends SandboxActor.Request(replyTo)
 
   case class Greeted(whom: String) extends Event
 
-  case class Greet(whom: String, replyTo: Option[ActorRef[HelloEventSourced.Command]]) extends Command
+  case class Greet(whom: String, override val replyTo: Option[ActorRef[SandboxActor.Protocol]]) extends Command(replyTo) {
+    override def setReplyTo(actorRef: ActorRef[SandboxActor.Protocol]): Command = {
+      Greet(whom, Some(actorRef))
+    }
+  }
+  case class Die() extends Command(None) {
+    override def setReplyTo(actorRef: ActorRef[SandboxActor.Protocol]): Command = this
+  }
 
-  case class Die() extends Command
-
-  case class Ack() extends Command
+  case class Ack() extends Command(None) {
+    override def setReplyTo(actorRef: ActorRef[SandboxActor.Protocol]): Command = this
+  }
 
   final case class State(val greetCount: Int, val greeted: Set[String])
 
@@ -85,7 +92,7 @@ object HelloEventSourced extends SandboxActor[HelloEventSourced] {
 class HelloEventSourced(actor: ActorRef[HelloEventSourced.Command])(implicit scheduler: Scheduler) {
 
   def greet(whom: String): Future[Done] = {
-    actor.ask[HelloEventSourced.Command] {
+    actor.ask[SandboxActor.Protocol] {
       replyTo => HelloEventSourced.Greet(whom, Some(replyTo))
     }(Timeout.durationToTimeout(30 seconds), scheduler)
       .map {

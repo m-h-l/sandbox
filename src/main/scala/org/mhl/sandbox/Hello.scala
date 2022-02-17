@@ -5,6 +5,7 @@ import akka.actor.typed._
 import akka.actor.typed.scaladsl.AskPattern.Askable
 import akka.actor.typed.scaladsl.Behaviors
 import akka.util.Timeout
+import org.mhl.sandbox
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -15,11 +16,9 @@ object Hello extends SandboxActor[Hello] {
 
   val name = "Hello"
 
-  def apply(actor: ActorRef[_])(implicit scheduler: Scheduler) = new Hello(actor.asInstanceOf[ActorRef[Hello.Protocol]])
+  def apply(actor: ActorRef[SandboxActor.Protocol])(implicit scheduler: Scheduler): Hello = new Hello(actor)
 
-  def behavior: Behavior[SandboxActor.Protocol] =
-    Behaviors.receive { (context, message) =>
-      message match {
+  def initialBehavior: Behavior[SandboxActor.Protocol] = Behaviors.receiveMessage {
         case Greet(whom, replyTo) =>
           say(s"Hello $whom")
           replyTo.foreach(_ ! Ack())
@@ -30,21 +29,22 @@ object Hello extends SandboxActor[Hello] {
         case _ => ???
           Behaviors.same
       }
-    }
 
-  trait Protocol extends SandboxActor.Protocol
+  case class Greet(whom: String, override val replyTo: Option[ActorRef[SandboxActor.Protocol]]) extends SandboxActor.Request(replyTo) {
+    override def setReplyTo(actorRef: ActorRef[SandboxActor.Protocol]): Greet = Greet(whom, Some(actorRef))
+  }
 
-  case class Greet(whom: String, replyTo: Option[ActorRef[Protocol]]) extends Protocol
+  case class Die() extends SandboxActor.Request(None) {
+    override def setReplyTo(actorRef: ActorRef[SandboxActor.Protocol]): Die = Die()
+  }
 
-  case class Die() extends Protocol
-
-  case class Ack() extends Protocol
+  case class Ack() extends SandboxActor.Response
 }
 
-class Hello(actor: ActorRef[Hello.Protocol])(implicit scheduler: Scheduler) {
+class Hello(actor: ActorRef[SandboxActor.Protocol])(implicit scheduler: Scheduler) {
 
   def greet(whom: String): Future[Done] = {
-    actor.ask[Hello.Protocol] { replyTo => Hello.Greet(whom, Some(replyTo)) }(Timeout.durationToTimeout(30 seconds), scheduler)
+    actor.ask[SandboxActor.Protocol] { replyTo => Hello.Greet(whom, Some(replyTo)) }(Timeout.durationToTimeout(30 seconds), scheduler)
       .map {
         case Hello.Ack() => Done.done()
       }
