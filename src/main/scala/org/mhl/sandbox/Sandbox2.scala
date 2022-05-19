@@ -22,7 +22,7 @@ object Sandbox2 {
       config = config.getConfig("second").withFallback(config.withoutPath("first").withoutPath("second"))
     )
 
-    actorSystem.scheduler.scheduleAtFixedRate(0 seconds, 2 seconds) { () =>
+    actorSystem.scheduler.scheduleAtFixedRate(0 seconds, 10 seconds) { () =>
       Computation.getSingle(actorSystem)
         .map { c =>
           val startTime = DateTime.now()

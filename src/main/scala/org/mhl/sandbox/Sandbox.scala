@@ -32,8 +32,8 @@ object Sandbox {
             Hello.deploy(context)
             HelloForgetful.deploy(context)
             HelloEventSourced.deploy(context)
-            //Computation.deploy(context)
-            SandboxRouter(10, Computation).deploy(context)
+            Computation.deploy(context)
+            //SandboxRouter(10, Computation).deploy(context)
             Behaviors.empty
         },
       name = "root",
@@ -41,34 +41,34 @@ object Sandbox {
     )
 
 
-    actorSystem.scheduler.scheduleAtFixedRate(0 seconds, 2 seconds) { () =>
-      Computation.getSingle(actorSystem)
-        .map { c =>
-          val startTime = DateTime.now()
-          val n = Rand.choose(numbers)
-          val future = c.compute(n)
-          (startTime, n, future)
-        }
-        .foreach(Function.tupled { (startTime, n, result) =>
-          result.foreach { result =>
-            val duration = (startTime to DateTime.now()).toPeriod(PeriodType.millis()).getMillis
-            println(s"Computation took $duration ms")
-            println(s"Computation result $n! = $result")
-          }
-        })
-    }
+//    actorSystem.scheduler.scheduleAtFixedRate(0 seconds, 2 seconds) { () =>
+//      Computation.getSingle(actorSystem)
+//        .map { c =>
+//          val startTime = DateTime.now()
+//          val n = Rand.choose(numbers)
+//          val future = c.compute(n)
+//          (startTime, n, future)
+//        }
+//        .foreach(Function.tupled { (startTime, n, result) =>
+//          result.foreach { result =>
+//            val duration = (startTime to DateTime.now()).toPeriod(PeriodType.millis()).getMillis
+//            println(s"Computation took $duration ms")
+//            println(s"Computation result $n! = $result")
+//          }
+//        })
+//    }
 
-    actorSystem.scheduler.scheduleAtFixedRate(0 seconds, 8 seconds) { () =>
-      val hello = HelloForgetful.getSingle(actorSystem)
-      hello.failed.foreach(f => f.printStackTrace())
-      val name = Rand.choose(names)
-      println(s"$name")
-      if (name == "Boom") {
-        hello.foreach(_.die())
-      } else {
-        hello.foreach(_.greet(name))
-      }
-    }
+//    actorSystem.scheduler.scheduleAtFixedRate(0 seconds, 8 seconds) { () =>
+//      val hello = HelloForgetful.getSingle(actorSystem)
+//      hello.failed.foreach(f => f.printStackTrace())
+//      val name = Rand.choose(names)
+//      println(s"$name")
+//      if (name == "Boom") {
+//        hello.foreach(_.die())
+//      } else {
+//        hello.foreach(_.greet(name))
+//      }
+//    }
   }
 }
 
